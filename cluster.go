@@ -75,6 +75,7 @@ func (cl *Cluster) init() {
 
 	for i := 0; i < len(cl.shards); i++ {
 		dbInd := i % len(cl.dbs)
+		fmt.Printf("------dbInd init %d\n", dbInd)
 		shard := cl.newShard(cl.dbs[dbInd], int64(i))
 		cl.shards[i] = shardInfo{
 			id:    i,
@@ -142,8 +143,26 @@ func (cl *Cluster) Shards(db *pg.DB) []*pg.DB {
 
 // Shard maps the number to the corresponding shard in the cluster.
 func (cl *Cluster) Shard(number int64) *pg.DB {
-	idx := uint64(number) % uint64(len(cl.shards))
-	return cl.shards[idx].shard
+	idx := uint64(number)
+
+	if int(number) < len(cl.shards) {
+		return cl.shards[idx].shard
+	} else if int(number) == len(cl.shards) {
+		shard := cl.newShard(cl.dbs[0], int64(number))
+
+		cl.shards = append(cl.shards, shardInfo{
+			id:    int(number),
+			shard: shard,
+			dbInd: 0,
+		})
+
+		cl.shardList = append(cl.shardList, shard)
+
+		return cl.shards[idx].shard
+	} else {
+		fmt.Printf("fail to load shard %d", number)
+		return nil
+	}
 }
 
 // SplitShard uses SplitID to extract shard id from the id and then
