@@ -3,7 +3,7 @@ package sharding_test
 import (
 	"fmt"
 
-	"github.com/go-pg/sharding/v7"
+	"github.com/DiegoZurita/sharding"
 
 	"github.com/go-pg/pg/v9"
 )

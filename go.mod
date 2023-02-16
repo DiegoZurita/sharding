@@ -1,4 +1,4 @@
-module github.com/go-pg/sharding/v7
+module github.com/DiegoZurita/sharding
 
 go 1.13
 

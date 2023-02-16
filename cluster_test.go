@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/go-pg/sharding/v7"
+	"github.com/DiegoZurita/sharding"
 
 	"github.com/go-pg/pg/v9"
 	. "github.com/onsi/ginkgo"
