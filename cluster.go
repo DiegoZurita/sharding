@@ -146,8 +146,11 @@ func (cl *Cluster) Shard(number int64) *pg.DB {
 	idx := uint64(number)
 
 	if int(number) < len(cl.shards) {
+		fmt.Printf("shard %d already exists", number)
 		return cl.shards[idx].shard
 	} else if int(number) == len(cl.shards) {
+		fmt.Printf("getting sharding %d", number)
+
 		shard := cl.newShard(cl.dbs[0], int64(number))
 
 		cl.shards = append(cl.shards, shardInfo{
